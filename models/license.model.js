@@ -1,51 +1,44 @@
+/**
+ * License Model
+ * Stores information about generated license keys
+ */
 const mongoose = require('mongoose');
-const Schema = mongoose.Schema;
 
-const LicenseSchema = new Schema({
+const licenseSchema = new mongoose.Schema({
   licenseKey: {
     type: String,
     required: true,
     unique: true
   },
-  licenseData: {
-    type: Object,
-    required: true
-  },
-  platform: {
-    type: String,
-    enum: ['gumroad', 'appsumo', 'stripe', 'manual'],
-    required: true
-  },
-  saleId: {
-    type: String,
-    required: true
-  },
   email: {
     type: String,
     required: true
   },
-  machineIds: [{
-    type: String
-  }],
-  activations: {
-    type: Number,
-    default: 0
-  },
-  maxActivations: {
-    type: Number,
-    default: 3
-  },
+  name: String,
   createdAt: {
     type: Date,
     default: Date.now
   },
-  expiresAt: {
-    type: Date
+  activatedAt: Date,
+  expiresAt: Date,
+  metadata: {
+    type: Map,
+    of: String
   },
   isActive: {
     type: Boolean,
     default: true
-  }
+  },
+  source: {
+    type: String,
+    enum: ['manual', 'gumroad', 'appsumo', 'other'],
+    default: 'manual'
+  },
+  notes: String
 });
 
-module.exports = mongoose.model('License', LicenseSchema);
+// Create indexes for faster lookups
+licenseSchema.index({ email: 1 });
+licenseSchema.index({ licenseKey: 1 });
+
+module.exports = mongoose.model('License', licenseSchema);
