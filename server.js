@@ -34,7 +34,7 @@ const server = http.createServer(app);
 const CONFIG = {
   PORT: process.env.PORT || 3000,
   PORT_RANGE_MAX: process.env.PORT_RANGE_MAX || 3020,
-  MONGODB_URI: process.env.MONGODB_URI || 'mongodb://localhost:27017/ai-resume-generator',
+  MONGODB_URI: process.env.MONGODB_URI || process.env.MONGO_URL || process.env.MONGO_URI || 'mongodb://localhost:27017/ai-resume-generator',
   NODE_ENV: process.env.NODE_ENV || 'development',
   CORS_ORIGIN: process.env.CORS_ORIGIN || '*',
   LOG_FORMAT: process.env.LOG_FORMAT || 'dev',
